@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ReusableProfileContent: View {
+    @State private var fetchedPosts: [Post] = []
     var user:User
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
@@ -49,6 +50,8 @@ struct ReusableProfileContent: View {
                     .foregroundColor(.black)
                     .hAlign(.leading)
                     .padding(.vertical, 15)
+                
+                ReusablePostsView(basedOnUID: true, uid: user.userUID, posts: $fetchedPosts)
             }
         }
     }
