@@ -11,7 +11,7 @@ struct UserStatsView: View {
     var body: some View {
         HStack(spacing: 24){
             HStack(spacing: 4){
-                Image(systemName: "807")
+                Text("807")
                     .font(.subheadline)
                     .bold()
                 
@@ -21,7 +21,7 @@ struct UserStatsView: View {
             }
             
             HStack{
-                Image(systemName: "6.9M")
+                Text("6.9M")
                     .font(.subheadline)
                     .bold()
                 

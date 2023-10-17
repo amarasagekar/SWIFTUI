@@ -44,7 +44,7 @@ struct TweetRowView: View {
                 Button{
                     
                 } label: {
-                    Image(systemName: "arrow.2.squareepath")
+                    Image(systemName: "arrow.2.squarepath")
                         .font(.subheadline)
                 }
                 Spacer()

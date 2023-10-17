@@ -12,8 +12,10 @@ struct ContentView: View {
     
     var body: some View {
         ZStack(alignment: .topLeading){
+            
             MainTabView()
                 .navigationBarHidden(showMenu)
+            
             if showMenu{
                 ZStack{
                     Color(.black)
