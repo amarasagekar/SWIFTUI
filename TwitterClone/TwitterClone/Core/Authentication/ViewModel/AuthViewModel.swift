@@ -11,12 +11,15 @@ import Firebase
 class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var didAuthenticateUser = false
+    @Published var currentUser: User?
     private var tempUserSession: FirebaseAuth.User?
+    
+    
+    private let service = UserService()
     
     init () {
         self.userSession = Auth.auth().currentUser
-         
-        print("Debug:-- user session is \(self.userSession)")
+        self.fecthUser()
     }
     
     func login(withEmail email: String, password: String){
@@ -27,7 +30,7 @@ class AuthViewModel: ObservableObject {
             }
             guard let user = result?.user else { return }
             self.userSession = user
-            print("Did log user in successfully")
+            self.fecthUser()
         }
     }
     
@@ -69,7 +72,16 @@ class AuthViewModel: ObservableObject {
                 .document(uid)
                 .updateData(["profileImageUrl": profileImageUrl]) { _ in
                     self.userSession = self.tempUserSession
+                    self.fecthUser()
                 }
+        }
+    }
+    
+    func fecthUser(){
+        guard let uid = self.userSession?.uid else { return }
+        
+        service.fetchUser(withUid: uid) { user in
+            self.currentUser = user
         }
     }
 }
