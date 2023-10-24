@@ -6,31 +6,40 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct TweetRowView: View {
+    let tweet: Tweet
+    
     var body: some View {
         VStack(alignment: .leading){
-            HStack(alignment: .top, spacing: 12) {
-                Circle()
-                    .frame(width: 56, height: 56)
-                    .foregroundColor(Color(.systemBlue))
-                
-                VStack(alignment: .leading, spacing: 4){
-                    HStack{
-                        Text("Bruce Wayne")
-                            .font(.subheadline).bold()
+            if let user = tweet.user {
+                HStack(alignment: .top, spacing: 12) {
+                    KFImage(URL(string: user.profileImageUrl))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 56, height: 56)
+                        .clipShape(Circle())
+                    
+                    VStack(alignment: .leading, spacing: 4){
                         
-                        Text("@batman")
-                            .foregroundColor(.gray)
-                            .font(.caption)
+                        HStack{
+                            Text(user.fullName)
+                                .font(.subheadline).bold()
+                            
+                            Text("@\(user.username)")
+                                .foregroundColor(.gray)
+                                .font(.caption)
+                            
+                            Text("2w")
+                                .foregroundColor(.gray)
+                                .font(.caption)
+                        }
                         
-                        Text("2w")
-                            .foregroundColor(.gray)
-                            .font(.caption)
+                        Text(tweet.caption)
+                            .font(.subheadline)
+                            .multilineTextAlignment(.leading)
                     }
-                    Text("I believe in Harvey Dent")
-                        .font(.subheadline)
-                        .multilineTextAlignment(.leading)
                 }
             }
             HStack{
@@ -70,6 +79,6 @@ struct TweetRowView: View {
     }
 }
 
-#Preview {
-    TweetRowView()
-}
+//#Preview {
+//    TweetRowView()
+//}
