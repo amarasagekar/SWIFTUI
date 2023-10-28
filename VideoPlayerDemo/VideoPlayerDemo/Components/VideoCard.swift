@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct VideoCard: View {
+    var video: Video
     var body: some View {
         ZStack {
             ZStack(alignment: .bottomLeading){
-                AsyncImage(url: URL(string: "")) { image in
+                AsyncImage(url: URL(string: video.image)) { image in
                     image.resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 160, height: 250)
@@ -24,10 +25,10 @@ struct VideoCard: View {
                 }
                 
                 VStack(alignment: .leading){
-                    Text("32 sec")
+                    Text("\(video.duration) sec")
                         .font(.caption).bold()
                     
-                    Text("By XYZ")
+                    Text("By \(video.user.name)")
                         .font(.caption).bold()
                         .multilineTextAlignment(.leading)
                     
@@ -47,5 +48,5 @@ struct VideoCard: View {
 }
 
 #Preview {
-    VideoCard()
+    VideoCard(video: previewVideo)
 }
