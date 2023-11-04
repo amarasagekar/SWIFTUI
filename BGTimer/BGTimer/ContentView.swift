@@ -39,7 +39,7 @@ struct Home:  View {
                 
                 Circle()
                     .trim(from: 0, to: self.to)
-                    .stroke(Color.red, style: StrokeStyle(lineWidth: 35, lineCap: .round))
+                    .stroke(Color.orange, style: StrokeStyle(lineWidth: 35, lineCap: .round))
                     .frame(width: 280, height: 280)
                     .rotationEffect(.init(degrees: -90))
                 
@@ -59,7 +59,7 @@ struct Home:  View {
                         
                         if self.count == 15 {
                             self.count = 0
-                            
+
                             withAnimation(.default) {
                                 self.to = 0
                             }
