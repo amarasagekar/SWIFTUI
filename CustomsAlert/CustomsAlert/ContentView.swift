@@ -8,27 +8,82 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showAlert: Bool = false
+    
+    @State var presentAlert = false
     
     var body: some View {
-        VStack(spacing: 40){
-                    
-                    
-                    Button("Native Alert") {
-                        showAlert = true
-                    }
-                    .alert("Title", isPresented: $showAlert, actions: {
-                        Button("Cancel", role: .cancel) {}
-                        
-                        Button("Delete", role: .destructive) {}
-                    })//: ALERT
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, 15)
-                    .background(.blue)
-                    .foregroundColor(.white)
+        ZStack{
+            
+            Button{
+                withAnimation{
+                    presentAlert.toggle()
                 }
+            } label: {
+                Text("Show Custom Alert")
+            }
+            
+            if presentAlert{
+                
+//                Success Alert
+                
+//                CustomAlert(presentAlert: $presentAlert) {
+//                    withAnimation{
+//                        presentAlert.toggle()
+//                    }
+//                } rightButtonAction: {
+//                    withAnimation{
+//                        presentAlert.toggle()
+//                    }
+//                }
+
+                
+//                Error Alert
+                
+                CustomAlert(presentAlert: $presentAlert, alertType: .error(title: "Error", message: "Please confirm that you're still open to session requests then you will find the call from new user."), isShowVerticalButtons: true){
+                    withAnimation{
+                        presentAlert.toggle()
+                    }
+                } rightButtonAction: {
+                    withAnimation{
+                        presentAlert.toggle()
+                    }
+                }
+            }
+        }
     }
 }
+
+//struct ContentView: View {
+    
+    
+//    @State private var showAlert: Bool = false
+//    @State private var showingAlert = false
+//
+//
+//    var body: some View {
+//        VStack(spacing: 40){
+//            Button("Show Alert") {
+//                showingAlert = true
+//            }
+//            .alert(isPresented: $showingAlert) {
+//                Alert(title: Text("Important message"), message: Text("Wear sunscreen"), dismissButton: .default(Text("Got it!")))
+//            }
+//        }
+//                    Button("Native Alert") {
+//                        showAlert = true
+//                    }
+//                    .alert("Title", isPresented: $showAlert, actions: {
+//                        Button("Cancel", role: .cancel) {}
+//
+//                        Button("Delete", role: .destructive) {}
+//                    })//: ALERT
+//                    .padding(.horizontal, 30)
+//                    .padding(.vertical, 15)
+//                    .background(.blue)
+//                    .foregroundColor(.white)
+//                }
+//    }
+//}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
