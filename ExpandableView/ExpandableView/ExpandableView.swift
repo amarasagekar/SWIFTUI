@@ -37,7 +37,8 @@ struct ExpandableView: View {
             thumbnail.matchedGeometryEffect(id: "view", in: namespace)
         }
         .background(
-            Color.gray.matchedGeometryEffect(id: "background", in: namespace)
+            Color.gray.opacity(0.7)
+                .matchedGeometryEffect(id: "background", in: namespace)
         )
         .mask{
             RoundedRectangle(cornerRadius: 20, style: .continuous).matchedGeometryEffect(id: "mask", in: namespace)
@@ -51,21 +52,24 @@ struct ExpandableView: View {
             expanded
                 .matchedGeometryEffect(id: "view", in: namespace)
                 .background(
-                    Color.gray
+                    Color.black
                         .matchedGeometryEffect(id: "background", in: namespace)
                 )
                 .mask{
-                    RoundedRectangle(cornerRadius: 20, style: .continuous).matchedGeometryEffect(id: "mask", in: namespace)
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .matchedGeometryEffect(id: "mask", in: namespace)
                 }
             
             Button {
-                
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)){
+                    show.toggle()
+                }
             } label: {
                 Image(systemName: "xmark")
                     .foregroundStyle(.white)
             }
             .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             .matchedGeometryEffect(id: "mask", in: namespace)
 
         }
