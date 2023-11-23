@@ -12,7 +12,7 @@ struct MainTabView: View {
     
     var body: some View {
         TabView{
-            Text("Feed")
+            FeedView()
                 .tabItem {
                     VStack{
                         Image(systemName: selectedTab == 0 ? "house.fill" : "house")
@@ -23,7 +23,7 @@ struct MainTabView: View {
                 .onAppear{selectedTab = 0}
                 .tag(0)
             
-            Text("Friends")
+            ExploreView()
                 .tabItem {
                     VStack{
                         Image(systemName: selectedTab == 0 ? "person.2.fill" : "person.2")
