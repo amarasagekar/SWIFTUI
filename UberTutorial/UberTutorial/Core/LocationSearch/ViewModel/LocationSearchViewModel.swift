@@ -19,6 +19,7 @@ class LocationSearchViewModel: NSObject, ObservableObject {
         }
     }
     
+    var userLocation: CLLocationCoordinate2D?
     override init(){
         super.init()
         searchCompleter.delegate = self
