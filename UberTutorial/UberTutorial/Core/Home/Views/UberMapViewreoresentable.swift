@@ -36,8 +36,10 @@ struct UberMapViewRepresentable: UIViewRepresentable {
                 context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate)
                 context.coordinator.configurePolyline(withDestinationCoordinate: coordinate)
             }
+            break
+        case .polylineAdded:
+            break
         }
-        
     }
     
     func makeCoordinator() -> MapCoordinator {
@@ -90,10 +92,10 @@ extension UberMapViewRepresentable {
             guard let userLocationCoordinate = self.userLocationCoordinate else { return }
             parent.locationViewModel.getDestinationRoute(from: userLocationCoordinate, to: coordinate) { route in
                 self.parent.mapview.addOverlay(route.polyline)
+                self.parent.mapState = .polylineAdded
                 let rect = self.parent.mapview.mapRectThatFits(route.polyline.boundingMapRect, edgePadding: .init(top: 64, left: 32, bottom: 500, right: 32))
                 
                 self.parent.mapview.setRegion(MKCoordinateRegion(rect), animated: true)
-                
             }
         }
 
