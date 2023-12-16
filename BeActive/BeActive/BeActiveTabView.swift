@@ -8,8 +8,21 @@
 import SwiftUI
 
 struct BeActiveTabView: View {
+    @State var selectiontab = "Home"
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TabView(selection: $selectiontab){
+            HomeView()
+                .tag("Home")
+                .tabItem {
+                    Image(systemName: "house")
+                }
+            ContentView()
+                .tag("Content")
+                .tabItem {
+                    Image(systemName: "person")
+                }
+        }
     }
 }
 
