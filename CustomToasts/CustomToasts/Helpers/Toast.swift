@@ -45,14 +45,15 @@ fileprivate class PassthroughWindow: UIWindow {
 @Observable
 class Toast{
     static let shared = Toast()
-    fileprivate var topasts: [ToastModel] = []
+    fileprivate var toasts: [ToastItem] = []
     
-    func present(){
+    func present(title: String, symbol: String?, tint: Color = .primary, isuserIntractionEnabled: Bool = false, timing: ToastTime = .medium){
+        toasts.append(.init(title: title, symbol: symbol, tint: tint, isUserInteractionEnabled: isuserIntractionEnabled, timing: timing))
         
     }
 }
 
-struct ToastModel: Identifiable {
+struct ToastItem: Identifiable {
     let id: UUID = .init()
     var title: String
     var symbol: String?
@@ -75,9 +76,21 @@ fileprivate struct Toastgroup: View {
             let safeArea = $0.safeAreaInsets
             
             ZStack{
-                Text("\(model.topasts.count)")
+                ForEach(model.toasts){
+                    ToastView(size: size, item: $0)
+                }
             }
+            .padding(.bottom, safeArea.top == .zero ? 15 : 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         }
+    }
+}
+
+fileprivate struct ToastView: View {
+    let size: CGSize
+    var item: ToastItem
+    
+    var body: some View {
+        /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Hello, world!@*/Text("Hello, world!")/*@END_MENU_TOKEN@*/
     }
 }

@@ -11,7 +11,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button("Present Toast") {
-                
+                Toast.shared.present(title: "", symbol: "")
             }
         }
         .padding()
