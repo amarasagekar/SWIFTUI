@@ -13,7 +13,7 @@ final class ViewModel: ObservableObject{
     
     func setup(){
         openai = OpenAI(Configuration(
-        organizationId: "Personal", apiKey: "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"
+        organizationId: "Personal", apiKey: "open ai api key"
         ))
     }
     
