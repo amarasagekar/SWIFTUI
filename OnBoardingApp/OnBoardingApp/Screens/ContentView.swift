@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @AppStorage("isOnBoarding") var isOnBoarding:Bool = true
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        if isOnBoarding{
+            TabView{
+                ForEach(outdoorActivityData){
+                    item in
+                    OnBoardingView(outDoorActivity: item)
+                }
+            }.tabViewStyle(PageTabViewStyle())
+                .ignoresSafeArea()
+        } else{
+            HomeScreen()
         }
-        .padding()
     }
 }
 

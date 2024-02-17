@@ -13,6 +13,4 @@ struct OutDoorActivity: View {
     }
 }
 
-#Preview {
-    OutDoorActivity()
-}
+
