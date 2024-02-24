@@ -7,10 +7,14 @@
 
 import Foundation
 class JSONViewModel: ObservableObject{
+    
     @Published var cards: [Card] = []
     
+    //Search
+    @Published var search = ""
+    
     init() {
-        
+        fetchJSON()
     }
     
     func fetchJSON(){
