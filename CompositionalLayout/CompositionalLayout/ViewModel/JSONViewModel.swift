@@ -13,6 +13,9 @@ class JSONViewModel: ObservableObject{
     //Search
     @Published var search = ""
     
+    // Compositiaonal Lau=yout array
+    @Published var compositionalArray : [[Card]] = []
+    
     init() {
         fetchJSON()
     }
@@ -29,8 +32,26 @@ class JSONViewModel: ObservableObject{
             
             DispatchQueue.main.async {
                 self.cards = cards
+                self.setCompositionalLayout()
             }
         }
         .resume()
+    }
+    
+    func setCompositionalLayout(){
+        var currentArrayCards: [Card] = []
+        
+        cards.forEach { (card) in
+            currentArrayCards.append(card)
+            if currentArrayCards.count == 3 {
+                compositionalArray.append(currentArrayCards)
+                currentArrayCards.removeAll()
+            }
+            
+            if currentArrayCards.count != 3 && card.id == cards.last!.id{
+                compositionalArray.append(currentArrayCards)
+                currentArrayCards.removeAll()
+            }
+        }
     }
 }

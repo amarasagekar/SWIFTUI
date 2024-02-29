@@ -8,7 +8,7 @@
 //picsum.photos/v2/list?page=2&limit=100
 import SwiftUI
 
-struct Card: Identifiable, Decodable {
+struct Card: Identifiable, Decodable, Hashable {
     var id: String
     var download_url: String
     var author: String

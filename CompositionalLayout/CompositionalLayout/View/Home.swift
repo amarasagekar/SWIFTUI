@@ -38,7 +38,22 @@ struct Home: View {
             }else{
                 ScrollView{
                     //Compositional Layout.....
-                    
+                    VStack(spacing: 4){
+//                        Layout1(cards: jasonModel.cards)
+                        ForEach(jasonModel.compositionalArray.indices, id: \.self){index in
+                           
+                            if index == 0 || index  % 6 == 0 {
+                                Layout1(cards: jasonModel.compositionalArray[index])
+                            }
+                            else if index  % 3 == 0 {
+                                Layout3(cards: jasonModel.compositionalArray[index])
+                            }
+                            else {
+                                Layout2(cards: jasonModel.compositionalArray[index])
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
                 }
             }
         }
