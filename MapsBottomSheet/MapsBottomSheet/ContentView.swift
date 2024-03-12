@@ -33,6 +33,7 @@ struct ContentView: View {
             .presentationCornerRadius(20)
             .presentationBackground(.regularMaterial)
             .presentationBackgroundInteraction(.enabled(upThrough: .large))
+            .bottomMaskForSheet()
         }
     }
 }
@@ -40,4 +41,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-//0.57
+
