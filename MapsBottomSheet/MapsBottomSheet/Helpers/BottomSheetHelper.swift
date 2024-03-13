@@ -27,11 +27,22 @@ fileprivate struct SheetRootViewFinder: UIViewRepresentable{
     }
     
     func updateUIView(_ uiView: UIView, context: Context){
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+            
+        }
     }
     
     class Coordinator:NSObject {
         //Status
         var isMasked: Bool = false
+    }
+}
+
+fileprivate extension UIView{
+    var viewBeforeWindow:UIView?{
+        if let superview, superview is UIWindow{
+            return self
+        }
+        return superview?.viewBeforeWindow
     }
 }
