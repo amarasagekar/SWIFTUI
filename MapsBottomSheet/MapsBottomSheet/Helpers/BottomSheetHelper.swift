@@ -28,7 +28,22 @@ fileprivate struct SheetRootViewFinder: UIViewRepresentable{
     
     func updateUIView(_ uiView: UIView, context: Context){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-            
+            if let rootView = uiView.viewBeforeWindow{
+                let safeArea = uiView.safeAreaInsets
+                ///updating its height so that it will create a empty space in the bottom
+                rootView.frame = .init(origin: .zero, size: .init(width: rootView.frame.width, height: rootView.frame.height - (height + safeArea.bottom)))
+                rootView.clipsToBounds = true
+                for view in rootView.subviews {
+                    //removing shadow
+                    view.layer.shadowColor = UIColor.clear.cgColor
+                    
+                    if view.layer.animationKeys() != nil{
+                        if let cornerradiusView = view.allSubviews.first(where: {$0.layer.animationKeys()?.contains("cornerRadius") ?? false }){
+                            print(cornerradiusView)
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -45,4 +60,12 @@ fileprivate extension UIView{
         }
         return superview?.viewBeforeWindow
     }
+    //retriving all subviews from an uiview
+    var allSubviews: [UIView]{
+        return subviews.flatMap{[$0] + $0.subviews}
+    }
+}
+
+#Preview{
+    ContentView()
 }
