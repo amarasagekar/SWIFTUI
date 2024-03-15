@@ -28,6 +28,7 @@ fileprivate struct SheetRootViewFinder: UIViewRepresentable{
     
     func updateUIView(_ uiView: UIView, context: Context){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+            guard !context.coordinator.isMasked else {return}
             if let rootView = uiView.viewBeforeWindow{
                 let safeArea = uiView.safeAreaInsets
                 ///updating its height so that it will create a empty space in the bottom
@@ -39,10 +40,11 @@ fileprivate struct SheetRootViewFinder: UIViewRepresentable{
                     
                     if view.layer.animationKeys() != nil{
                         if let cornerradiusView = view.allSubviews.first(where: {$0.layer.animationKeys()?.contains("cornerRadius") ?? false }){
-                            print(cornerradiusView)
+                            cornerradiusView.layer.maskedCorners = []
                         }
                     }
                 }
+                context.coordinator.isMasked = true
             }
         }
     }

@@ -18,6 +18,7 @@ struct ContentView: View {
                         Image(systemName: tab.symbol)
                         Text(tab.rawValue)
                     }
+                    .toolbarBackground(.visible, for: .tabBar)
             }
         }
         .task {
@@ -33,6 +34,7 @@ struct ContentView: View {
             .presentationCornerRadius(20)
             .presentationBackground(.regularMaterial)
             .presentationBackgroundInteraction(.enabled(upThrough: .large))
+            .interactiveDismissDisabled()
             .bottomMaskForSheet()
         }
     }
