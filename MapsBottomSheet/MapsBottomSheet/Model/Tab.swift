@@ -18,9 +18,9 @@ enum Tab: String, CaseIterable{
         case .people:
             "figure.2.arms.open"
         case .devices:
-            "mackbook.and.iphone"
+            "macbook.and.iphone"
         case .items:
-            "ciorcle.grid.2x2.fill"
+            "circle.grid.2x2.fill"
         case .me:
             "person.circle.fill"
         }

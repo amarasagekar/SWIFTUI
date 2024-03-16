@@ -10,17 +10,18 @@ extension View{
     @ViewBuilder
     ///Default tab bar height = 49
     
-    func bottomMaskForSheet(_ height: CGFloat = 49)-> some View{
+    func bottomMaskForSheet(mask: Bool = true, _ height: CGFloat = 49)-> some View{
         self
-            .background(SheetRootViewFinder(height: height))
+            .background(SheetRootViewFinder(height: height, mask: mask))
     }
 }
 ///Helpers
 fileprivate struct SheetRootViewFinder: UIViewRepresentable{
     var height:CGFloat
-    func makeCoordinator() -> Coordinator {
-        return Coordinator()
-    }
+    var mask: Bool
+//    func makeCoordinator() -> Coordinator {
+//        return Coordinator()
+//    }
     
     func makeUIView(context: Context) -> UIView {
         return .init()
@@ -28,11 +29,17 @@ fileprivate struct SheetRootViewFinder: UIViewRepresentable{
     
     func updateUIView(_ uiView: UIView, context: Context){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
-            guard !context.coordinator.isMasked else {return}
-            if let rootView = uiView.viewBeforeWindow{
-                let safeArea = uiView.safeAreaInsets
+//            guard !context.coordinator.isMasked else {return}
+            if let rootView = uiView.viewBeforeWindow, let window = rootView.window{
+                let safeArea = window.safeAreaInsets
                 ///updating its height so that it will create a empty space in the bottom
-                rootView.frame = .init(origin: .zero, size: .init(width: rootView.frame.width, height: rootView.frame.height - (height + safeArea.bottom)))
+                rootView.frame = .init(
+                    origin: .zero, 
+                    size: .init(
+                        width: window.frame.width,
+                        height: window.frame.height - (mask ? (height + safeArea.bottom) : 0)
+                    )
+                )
                 rootView.clipsToBounds = true
                 for view in rootView.subviews {
                     //removing shadow
@@ -44,15 +51,15 @@ fileprivate struct SheetRootViewFinder: UIViewRepresentable{
                         }
                     }
                 }
-                context.coordinator.isMasked = true
+//                context.coordinator.isMasked = true
             }
         }
     }
     
-    class Coordinator:NSObject {
-        //Status
-        var isMasked: Bool = false
-    }
+//    class Coordinator:NSObject {
+//        //Status
+//        var isMasked: Bool = false
+//    }
 }
 
 fileprivate extension UIView{
