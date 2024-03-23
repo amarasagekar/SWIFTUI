@@ -13,6 +13,7 @@ struct HoldDownButton: View {
     var paddingHorizontal: CGFloat = 25
     var paddingVertical: CGFloat = 12
     var duration: CGFloat = 1
+    var scale: CGFloat = 0.95
     var background: Color
     var loadingTint: Color
     var shape: AnyShape = .init(.capsule)
@@ -29,33 +30,71 @@ struct HoldDownButton: View {
             .padding(.vertical, paddingVertical)
             .padding(.horizontal, paddingHorizontal)
             .background{
-                GeometryReader{
-                    let size = $0.size
-                    
+                ZStack(alignment: .leading){
                     Rectangle()
                         .fill(background.gradient)
                     
-                    Rectangle()
-                        .fill(loadingTint)
-                        .frame(width: size.width * progress)
+                    GeometryReader{
+                        let size = $0.size
+                        ///Adding Opacity Transition
+                        if !isCompleted{
+                            Rectangle()
+                                .fill(loadingTint)
+                                .frame(width: size.width * progress)
+                                .transition(.opacity)
+                        }
+                    }
                 }
+                
             }
             .clipShape(shape)
             .contentShape(shape)
+            .scaleEffect(isHolding ? scale : 1)
+            .animation(.snappy, value: isHolding)
             ///Gesture
+            .gesture(longPressGesture)
+            .simultaneousGesture(dragGesture)
+            .onReceive(timer) { _ in
+                if isHolding && progress != 1 {
+                    timeCount += 0.01
+                    progress = max(min(timeCount / duration, 1), 0)
+                }
+            }
             .onAppear(perform: {
                 cancelTimer()
             })
+    }
+    var dragGesture: some Gesture{
+        DragGesture(minimumDistance: 0)
+            .onEnded { _ in
+                guard !isCompleted else{return}
+                cancelTimer()
+                withAnimation(.snappy) {
+                    reset()
+                }
+            }
     }
     
     var longPressGesture: some Gesture {
         LongPressGesture(minimumDuration: duration)
             .onChanged {
+                ///Resetting to initial state
+                isCompleted = false
+                reset()
+                
                 isHolding = $0
+                addTimer()
             }
             .onEnded { status in
+                isHolding = false
+                cancelTimer()
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    isCompleted = status
+                }
                 
+                action()
             }
+        
     }
     ///Add Timer
     func addTimer(){
@@ -64,6 +103,13 @@ struct HoldDownButton: View {
     //Cancels Timer
     func cancelTimer(){
         timer.upstream.connect().cancel()
+    }
+    
+    ///Reset
+    func reset() {
+        isHolding = false
+        progress = 0
+        timeCount = 0
     }
 }
 

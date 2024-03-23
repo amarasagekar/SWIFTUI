@@ -17,10 +17,11 @@ struct ContentView: View {
                 
                 HoldDownButton(
                     text: "Hold to Increase",
+                    duration: 0.5,
                     background: .black,
                     loadingTint: .white.opacity(0.3)
                 ) {
-                    print("Action")
+                    count += 1
                 }
                 .foregroundStyle(.white)
                 .padding(.top, 45)
