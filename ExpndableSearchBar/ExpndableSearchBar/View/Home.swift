@@ -26,8 +26,14 @@ struct Home: View {
     
     ///Expandable Navigation bar
     @ViewBuilder
-    func ExpandableNavigationBar() -> some View{
+    func ExpandableNavigationBar(_ title: String = "Messages") -> some View{
         VStack(spacing: 10){
+            ///Title
+            Text(title)
+                .font(.largeTitle.bold())
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 10)
+            
             /// Search Bar
             HStack(spacing: 12){
                 Image(systemName: "magnifyingglass")
@@ -42,8 +48,16 @@ struct Home: View {
                 RoundedRectangle(cornerRadius: 25.0)
                     .fill(.background)
             }
+            
+            ///Custom Segmented picker
+            ScrollView(.horizontal) {
+                
+            }
+            .frame(height: 50)
         }
-        .padding(.horizontal, 15)
+        .padding(.top, 25)
+        .safeAreaPadding(.horizontal, 15)
+        .padding(.bottom, 10)
     }
     ///Dummy Messgae View
     @ViewBuilder
