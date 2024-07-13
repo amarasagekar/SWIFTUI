@@ -10,6 +10,10 @@ import SwiftUI
 struct Home: View {
     /// View properties
     @State private var searchText: String = ""
+    @State private var activeTab: Tab = .all
+    @Environment(\.colorScheme) private var scheme
+    @Namespace private var animation
+    
     var body: some View {
         ScrollView(.vertical) {
             LazyVStack(spacing: 15){
@@ -51,7 +55,33 @@ struct Home: View {
             
             ///Custom Segmented picker
             ScrollView(.horizontal) {
-                
+                HStack(spacing: 12){
+                    ForEach(Tab.allCases, id: \.rawValue) { tab in
+                        Button(action: {
+                            withAnimation(.snappy) {
+                                activeTab = tab
+                            }
+                        }) {
+                            Text(tab.rawValue)
+                                .font(.callout)
+                                .foregroundStyle(activeTab == tab ? (scheme == .dark ? .black : .white) : Color.primary)
+                                .padding(.vertical,8)
+                                .padding(.horizontal, 15)
+                                .background{
+                                    if activeTab == tab {
+                                        Capsule()
+                                            .fill(Color.primary)
+                                            .matchedGeometryEffect(id: "ACTIVETAB", in: animation)
+                                    } else{
+                                        Capsule()
+                                            .fill(.background)
+                                    }
+                                }
+                        }
+                        .buttonStyle(.plain)
+                        
+                    }
+                }
             }
             .frame(height: 50)
         }
