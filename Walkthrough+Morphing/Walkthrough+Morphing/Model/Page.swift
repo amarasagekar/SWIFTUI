@@ -40,7 +40,23 @@ enum Page: String, CaseIterable{
         }
     }
     
+    /// Fetech the next page, if its not last page
     var nextpage:Page{
+        let index = Int(self.index) + 1
+        if index < 4 {
+            return Page.allCases[index]
+        }
         
+        return self
     }
+    
+    /// Fetch teh previous page, if its not the first page
+    var previouspage: Page {
+        let index = Int(self.index) - 1
+        if index >= 0 {
+            return Page.allCases[index]
+        }
+        return self
+    }
+    
 }
