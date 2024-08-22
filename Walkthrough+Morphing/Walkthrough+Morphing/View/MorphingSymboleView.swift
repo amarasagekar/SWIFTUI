@@ -30,7 +30,7 @@ struct MorphingSymboleView: View {
     func ImageView() -> some View{
         Image(systemName: symbole)
             .font(config.font)
-            .foregroundStyle(config.foregroundColor)
+            .blur(radius: 10)
             .frame(width: config.frame.width, height: config.frame.height)
     }
     
