@@ -11,6 +11,11 @@ import SwiftUI
 struct MorphingSymboleView: View {
     var symbole: String
     var config: Config
+    /// View properties
+    @State private var trigger: Bool = false
+    @State private var displayingSymbol: String = ""
+    @State private var nextSymbol: String = ""
+    
     var body: some View {
 
         Canvas{ ctx, size in
@@ -24,14 +29,35 @@ struct MorphingSymboleView: View {
                 .tag(0)
         }
         .frame(width: config.frame.width, height: config.frame.height)
+        .onChange(of: symbole) { oldValue, newValue in
+            trigger.toggle()
+            nextSymbol = newValue
+        }
+        .task {
+            guard displayingSymbol == "" else { return }
+            displayingSymbol == "" ? symbole: displayingSymbol
+        }
     }
     
     @ViewBuilder
     func ImageView() -> some View{
-        Image(systemName: symbole)
-            .font(config.font)
-            .blur(radius: 10)
-            .frame(width: config.frame.width, height: config.frame.height)
+        KeyframeAnimator(initialValue: CGFloat.zero, trigger: trigger) { radius in
+         
+            Image(systemName: symbole)
+                .font(config.font)
+                .blur(radius: radius)
+                .frame(width: config.frame.width, height: config.frame.height)
+                .onChange(of: radius) { oldValue, newValue in
+                    if newValue.rounded() == config.radius {
+                        /// Animating symbole change
+                        
+                    }
+                }
+            
+        } keyframes: { _ in
+            CubicKeyframe(config.radius, duration: config.keyFrameDuration)
+            CubicKeyframe(0, duration: config.keyFrameDuration)
+        }
     }
     
     struct Config{
@@ -39,6 +65,8 @@ struct MorphingSymboleView: View {
         var frame: CGSize
         var radius: CGFloat
         var foregroundColor: Color
+        var keyFrameDuration: CGFloat = 0.4
+        var symbolAnimation: Animation = .smooth(duration: 0.5, extraBounce: 0)
     }
 }
 
