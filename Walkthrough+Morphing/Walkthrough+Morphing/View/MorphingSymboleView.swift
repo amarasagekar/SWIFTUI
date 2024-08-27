@@ -51,6 +51,9 @@ struct MorphingSymboleView: View {
                     if newValue.rounded() == config.radius {
                         /// Animating symbole change
                         
+                        withAnimation(config.symbolAnimation) {
+                            displayingSymbol = nextSymbol
+                        }
                     }
                 }
             
